@@ -12,13 +12,14 @@ module LD16
       return grid
     end
     
-    def self.fill(width,height,coordinates=false,&fill)
+    def self.fill(width,height,with_coordinates=true,&fill)
       grid = self.new(width,height)
       if with_coordinates
         grid.map_coords!(&fill)
       else
         grid.map!(&fill)
       end
+      return grid
     end
     
     attr_reader :width, :height
