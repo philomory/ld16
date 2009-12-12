@@ -11,6 +11,12 @@ module LD16
       return grid
     end
     
+    def self.fill(width,height,&fill,with_coordinates = false)
+      grid = self.new(width,height)
+      if with_coordinates
+        grid.enum_with_coords.map
+    end
+    
     attr_reader :width, :height
     def initialize(width,height)
       @width, @height = width, height
@@ -47,5 +53,17 @@ module LD16
         end
       end
     end
+    
+    def map
+      @spaces.map do |col|
+        col.map do |obj|
+          yield obj
+        end
+      end
+    end
+    
+    #def map_with_coords
+     # @spaces.enum_with_index do
+    
   end
 end
