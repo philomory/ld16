@@ -1,3 +1,5 @@
+require 'enumerator'
+
 module LD16
   class Grid
     include Enumerable
@@ -31,6 +33,19 @@ module LD16
     end
     
     def each
+      @spaces.each do |col|
+        col.each do |obj|
+          yield obj
+        end
+      end
+    end
     
+    def each_with_coords
+      @spaces.each_with_index do |col,x|
+        col.each_with_index do |obj,y|
+          yield obj, x, y
+        end
+      end
+    end
   end
 end

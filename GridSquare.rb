@@ -1,5 +1,7 @@
 module LD16
   class GridSquare
+  
+    attr_reader :x, :y, :grid
     def initialize(x,y,grid)
       @x, @y, @grid = x, y, grid
     end
