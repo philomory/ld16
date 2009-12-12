@@ -27,5 +27,9 @@ module LD16
       @grid[@x,@y]
     end
     
+    def to_s
+      "GridSquare[#{x},#{y}]: #{self.contains}"
+    end
+  
   end
 end
