@@ -1,5 +1,6 @@
 module LD16
   class Grid
+    include Enumerable
     def self.from_array(array)
       width = array.length
       height = array[0].length
