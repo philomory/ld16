@@ -3,19 +3,26 @@
 # An example usage is present in the __END__ section.
 
 class Perlin
-  def initialize(seed,persistence,octaves)
-    @seed,@persistence,@octaves = seed,persistence,octaves
+  attr_accessor :seed, :octaves, :persistence
+  def initialize(seed,octaves,persistence)
+    @seed,@octaves,@persistence = seed,octaves,persistence
   end
 
-  def noise(x, y)
-    ([@seed, x, y].hash & 65535) / 65536.0
+  def noise(x,y)
+    n = x + y * 57;
+    n = (n << 13) ^ n;
+    return (1.0 - ((n * (n * n * 15731*@seed + 789221*@seed) + 1376312589*@seed) & 0x7fffffff) / 1073741824.0)
   end
+  
+#  def noise(x, y)
+#    ([@seed, x, y].to_s.hash & 65535) / 65536.0
+#  end
 
   def smooth_noise(x, y)
     corners = noise(x-1, y-1) + noise(x-1, y+1) + noise(x+1, y-1) + noise(x+1, y+1)
     sides   = noise(x  , y-1) + noise(x  , y+1) + noise(x-1, y  ) + noise(x+1, y  )
     center  = noise(x  , y  )
-    center / 4 + sides / 8 + corners / 16
+    (center / 4) + (sides / 8) + (corners / 16)
   end
 
   def linear_interpolate(a, b, x)
@@ -48,7 +55,7 @@ class Perlin
       frequency = 2.0 ** i
       amplitude = @persistence ** i
       interpolate_noise(x * frequency, y * frequency) * amplitude
-    end.inject {|sum,obj| sum + obj}
+    end.inject(0) {|sum,obj| sum + obj}
   end
 end
 
@@ -59,7 +66,7 @@ require "zlib"
 width = height = 300
 depth, color_type = 8, 2
 
-pn = Perlin.new(1,0.25,4)
+pn = Perlin.new(1,4,0.25)
 
 img_data = (0...height).map do |y|
   (0...width).map do |x|

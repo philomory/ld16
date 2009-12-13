@@ -1,0 +1,5 @@
+syntax: regexp
+^ext/
+
+syntax: glob
+notes.txt
