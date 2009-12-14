@@ -41,6 +41,7 @@ module LD16
       when Gosu::KbUp     then @player.move(:north)
       when Gosu::KbDown   then @player.move(:south)
       when Gosu::KbSpace  then @player.wait
+      when Gosu::KbR      then MainWindow.new_game
       when Gosu::KbEscape then MainWindow.close
       end
     end
