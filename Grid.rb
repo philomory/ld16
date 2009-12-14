@@ -2,6 +2,10 @@ require 'enumerator'
 require 'GridSquare'
 
 module LD16
+  OutOfBounds = Object.new
+  def OutOfBounds.cost(); 999999999; end
+  def OutOfBounds.color(); 0x00000000; end
+  
   class Grid
     include Enumerable
     def self.from_array(array)
@@ -12,7 +16,7 @@ module LD16
       return grid
     end
     
-    def self.fill(width,height,with_coordinates=true,&fill)
+    def self.fill(width,height,with_coordinates=false,&fill)
       grid = self.new(width,height)
       if with_coordinates
         grid.map_coords!(&fill)
@@ -28,19 +32,40 @@ module LD16
       @spaces = Array.new(@width) {Array.new(@height)}
     end
     def [](x,y)
-      return @spaces[x][y]
+      if (0...@width).include?(x) and (0...@height).include?(y)
+        return @spaces[x][y]
+      else
+        return OutOfBounds
+      end
     end
     
     def []=(x,y,val)
-      @spaces[x][y] = val
+      if (0...@width).include?(x) and (0...@height).include?(y)
+        @spaces[x][y] = val
+      end
     end
 
     def col(x)
-      @spaces[x].dup
+      @spaces[x].dup if (0...@width).include?(x)
     end
     
     def row(y)
-      @spaces.map {|col| col[y]}
+      @spaces.map {|col| col[y]} if (0...@height).include?(y)
+    end
+    
+    def around(x,y,radius)
+      positions = []
+      (x-radius..x+radius).each do |x_pos|
+        if (0...@width).include?(x_pos)
+          remaining = radius - (x - x_pos).abs
+          (y-remaining..y+remaining).each do |y_pos|
+            if (0...@height).include?(y)
+              positions << GridSquare.new(x_pos,y_pos,self)
+            end
+          end
+        end
+      end
+      return positions
     end
     
     def each

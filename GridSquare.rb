@@ -23,12 +23,12 @@ module LD16
       return GridSquare.new(@x-1,@y,@grid)
     end
     
-    def contains
+    def contents
       @grid[@x,@y]
     end
     
     def to_s
-      "GridSquare[#{x},#{y}]: #{self.contains}"
+      "GridSquare[#{x},#{y}]: #{self.contents}"
     end
   
   end
