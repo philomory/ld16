@@ -1,6 +1,7 @@
 require 'gosu'
 #require 'helper'
 
+require 'Constants'
 require 'Screen'
 require 'Game'
 
@@ -30,7 +31,7 @@ module LD16
       # More Singleton stuff.
       self.class.instance_variable_set(:@__instance__,self)
        
-      super(400,400,false)
+      super(Sizes::WindowWidth,SizesWindowHeight,false)
       self.caption = "LD16 Game"
       self.new_game
       @fps = FPSCounter.new

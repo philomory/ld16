@@ -18,8 +18,12 @@ module LD16
       MainWindow.draw_quad(*args)
     end
     
+    def draw_rect(x,y,w,h,c,z)
+      draw_quad(x,y,c,x+w,y,c,x,y+h,c,x+w,y+h,c,z)
+    end
+    
     def draw_square(x,y,s,c,z)
-      draw_quad(x,y,c,x+s,y,c,x,y+s,c,x+s,y+s,c,z)
+      draw_rect(x,y,s,s,c,z)
     end
     
 #    def fill(c,z=ZOrder::Splash)
