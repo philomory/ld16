@@ -31,7 +31,7 @@ module LD16
       # More Singleton stuff.
       self.class.instance_variable_set(:@__instance__,self)
        
-      super(Sizes::WindowWidth,SizesWindowHeight,false)
+      super(Sizes::WindowWidth,Sizes::WindowHeight,false)
       self.caption = "LD16 Game"
       self.new_game
       @fps = FPSCounter.new

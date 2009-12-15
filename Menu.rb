@@ -6,13 +6,13 @@ module LD16
         @parent = parent
         @selection_index = 0
         @items_array = []
+        @font = Gosu::Font.new(MainWindow.instance,Gosu::default_font_name,20)
       end
     
       def back
-        MainWindow.current_screen = @parent
+        MainWindow.current_screen = @parent if @parent
       end
 
-    
       def button_down(id)
         case id
         when *[Gosu::KbSpace,Gosu::KbEnter,Gosu::KbReturn]
@@ -36,6 +36,15 @@ module LD16
         end
       end #def button_down
     
+      def add(item)
+        @items_array << item
+        return self
+      end
+      
+      def add_back
+        self.add(BackItem.new(self))
+      end
+    
     end
     class GameMenu < BasicMenu
       attr_accessor :width, :height, :items_array
@@ -48,9 +57,63 @@ module LD16
       
       def draw
         @parent.draw
-        self.draw_rect(
+        x,y = (Sizes::WindowWidth - @width)/2, (Sizes::WindowHeight - @height)/2
+        self.draw_rect(x,y,@width,@height,0xEE000033,@z)
       end
             
     end
+    
+        class BaseMenuItem
+          
+      def title
+        if @title.is_a? Proc
+          @title.call
+        else
+          @title
+        end
+      end
+      
+      def selected
+        if @selected_action
+          @selected_action.call
+        end
+      end
+      
+      def incr
+        if @incr_action
+          @incr_action.call
+        end
+      end
+      
+      def decr
+        if @decr_action
+          @decr_action.call
+        end
+      end
+      
+      def draw(font,x,y,color)
+        font.draw_rel(self.title,Sizes::WindowWidth/2,y,ZOrder::Splash,0.5,0,1,1,color)
+      end #draw
+    end
+    
+    class MenuItem < BaseMenuItem
+      
+      def initialize(title,&action)
+        @title = title
+        @selected_action = action
+      end #def initialize
+    
+    end
+    
+    class BackItem < BaseMenuItem
+      def initialize(menu,title="Back")
+        @menu, @title = menu, title
+      end
+      
+      def selected
+        @menu.back
+      end
+    end
+    
   end
 end

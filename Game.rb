@@ -1,6 +1,7 @@
 require 'Screen'
 require 'Region'
 require 'Player'
+require 'Menu'
 
 module LD16
   class Game < Screen
@@ -39,6 +40,8 @@ module LD16
       when Gosu::KbSpace  then @player.wait
       when Gosu::KbR      then MainWindow.new_game
       when Gosu::KbEscape then MainWindow.close
+      when Gosu::KbEnter  then MainWindow.current_screen = Menu::GameMenu.new(self).add_back
+      when Gosu::KbReturn then MainWindow.current_screen = Menu::GameMenu.new(self).add_back
       end
     end
     
