@@ -25,7 +25,10 @@ module LD16
     
     def update_sight
       @game.region.seen.around(@x,@y,@sight).each do |sq|
-        @game.region.seen[*sq] = true
+        unless @game.region.seen[*sq]
+          @score += @game.region.terrain[*sq].value
+          @game.region.seen[*sq] = true
+        end
       end
     end
     
