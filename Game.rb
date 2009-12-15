@@ -24,8 +24,8 @@ module LD16
       @font.draw("Score: #{@player.score}",10,30,5)
     end
     
-    def draw_grid_square(x,y,color,z)
-      self.draw_square(x*@scale,y*@scale,@scale,color,z)
+    def draw_grid_square(x,y,color,z,padding=0)
+      self.draw_square(x*@scale+padding,y*@scale+padding,@scale-padding,color,z)
     end
         
     def button_down(id)

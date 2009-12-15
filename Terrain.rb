@@ -3,5 +3,6 @@ module LD16
     def value
       10
     end
+    def special; end
   end
 end
