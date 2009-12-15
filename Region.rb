@@ -2,9 +2,6 @@ require 'Grid'
 require 'GridSquare'
 require 'Perlin'
 require 'Terrain'
-%w{Water Beach Grassland Hill Mountain}.each do |type|
-  require File.join('Terrain',type)
-end
 
 module LD16
   class Region

@@ -38,7 +38,7 @@ module LD16
     end
     
     def draw
-      @game.draw_grid_square(@x,@y,0xFFFF00FF,1,3)
+      @game.draw_grid_square(@x,@y,0xFFFF00FF,1,1)
     end
   end
 end

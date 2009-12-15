@@ -11,7 +11,9 @@ module LD16
       start_point = @region.terrain.grid_squares.select do |sq| 
         sq.contents.is_a?(Terrain::Grassland)
       end.sort_by {|sq| rand}.first
-      @player = Player.new(start_point.x,start_point.y,self)
+      x,y,z = start_point.x, start_point.y,start_point.contents.z
+      @region.terrain[x,y] = Terrain::Base.new(x,y,z)
+      @player = Player.new(x,y,self)
       @font = Gosu::Font.new(MainWindow.instance,Gosu::default_font_name,15)
     end
     
@@ -25,7 +27,7 @@ module LD16
     end
     
     def draw_grid_square(x,y,color,z,padding=0)
-      self.draw_square(x*@scale+padding,y*@scale+padding,@scale-padding,color,z)
+      self.draw_square(x*@scale+padding,y*@scale+padding,@scale-(padding*2),color,z)
     end
         
     def button_down(id)

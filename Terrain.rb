@@ -6,3 +6,7 @@ module LD16
     def special; end
   end
 end
+
+%w{Water Beach Grassland Hill Mountain Base}.each do |type|
+  require File.join('Terrain',type)
+end
