@@ -5,7 +5,7 @@ require 'Terrain'
 
 module LD16
   class Region
-    attr_accessor :terrain, :seen, :png
+    attr_accessor :terrain, :seen, :png, :base
     def initialize(width,height)
       @width, @height = width, height
       @terrain = Grid.fill(@width,@height) {0}
@@ -37,6 +37,24 @@ module LD16
         end
         klass.new(x,y,z)
       end
+    end
+    
+    def create_base(x,y,z)
+      @base = [x,y]
+      @terrain[x,y] = Terrain::Base.new(x,y,z)
+    end
+    
+    def pack
+      bitstring = @seen.flatten.inject("") do |str,sq|
+        str << (sq ? "1" : "0")
+      end
+      return [bitstring].pack("B*")
+    end
+    
+    def unpack(packed_string)
+      bitstring = packed_string.unpack("B*")[0]
+      seen_ary = bitstring.split("").map {|x| x == "1"}.enum_slice(@width).to_a
+      @seen = Grid.from_array(seen_ary)
     end
     
     

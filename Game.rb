@@ -13,7 +13,7 @@ module LD16
         sq.contents.is_a?(Terrain::Grassland)
       end.sort_by {|sq| rand}.first
       x,y,z = start_point.x, start_point.y,start_point.contents.z
-      @region.terrain[x,y] = Terrain::Base.new(x,y,z)
+      @region.create_base(x,y,z)
       @player = Player.new(x,y,self)
       @font = Gosu::Font.new(MainWindow.instance,Gosu::default_font_name,15)
     end
@@ -42,6 +42,8 @@ module LD16
       when Gosu::KbEscape then MainWindow.close
       when Gosu::KbEnter  then MainWindow.current_screen = Menu::GameMenu.new(self).add_back
       when Gosu::KbReturn then MainWindow.current_screen = Menu::GameMenu.new(self).add_back
+      when Gosu::KbP then @packed = @region.pack; p @packed
+      when Gosu::KbU then @region.unpack(@packed) if @packed
       end
     end
     
