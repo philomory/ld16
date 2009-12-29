@@ -73,6 +73,14 @@ module LD16
     # MainWindow is a singleton. This allows me to call methods on MainWindow
     # that I really want to sent to MainWindow.instance, cutting out a lot of
     # useless verbosity. And it avoids ill-performing method_missing hacks.
+    #
+    # clip_to is handled sepearately because it takes a block and define_method
+    # doesn't handle blocks correctly in Ruby 1.8.
+    
+    def MainWindow.clip_to(*args,&blck)
+      MainWindow.instance.clip_to(*args,&blck)
+    end
+    
     (MainWindow.public_instance_methods - MainWindow.public_methods).each do |meth|
       (class << MainWindow; self; end).class_eval do
         define_method(meth) do |*args|

@@ -1,10 +1,14 @@
 module LD16
-  class Screen
+  module Screen
     attr_reader :parent
     
     def update; end
     
     def draw; end
+    
+    def clip_to(*args,&blck)
+      MainWindow.clip_to(*args,&blck)
+    end
     
     def draw_line(*args)
       MainWindow.draw_line(*args)
@@ -52,6 +56,10 @@ module LD16
     
     def mouse_y
       MainWindow.mouse_y
+    end
+    
+    def draw_text(font,*args)
+      @font.draw_text(*args)
     end
     
     def wordwrap(message,width,font)

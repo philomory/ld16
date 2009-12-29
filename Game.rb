@@ -1,10 +1,11 @@
 require 'Screen'
 require 'Region'
 require 'Player'
-require 'Menu'
+require 'GameMenu'
 
 module LD16
-  class Game < Screen
+  class Game
+    include Screen
     attr_accessor :region
     def initialize(tiles_w,tiles_h,scale)
       @width,@height,@scale = tiles_w,tiles_h,scale
@@ -40,8 +41,8 @@ module LD16
       when Gosu::KbSpace  then @player.wait
       when Gosu::KbR      then MainWindow.new_game
       when Gosu::KbEscape then MainWindow.close
-      when Gosu::KbEnter  then MainWindow.current_screen = Menu::GameMenu.new(self).add_back
-      when Gosu::KbReturn then MainWindow.current_screen = Menu::GameMenu.new(self).add_back
+      when Gosu::KbEnter  then MainWindow.current_screen = GameMenu.new(self).add_back
+      when Gosu::KbReturn then MainWindow.current_screen = GameMenu.new(self).add_back
       when Gosu::KbP then @packed = @region.pack; p @packed
       when Gosu::KbU then @region.unpack(@packed) if @packed
       end
