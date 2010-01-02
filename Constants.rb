@@ -12,5 +12,6 @@ module LD16
     Player  =  1
     HUD     =  3
     Menu    = 10
+    Splash  = 100
   end
 end

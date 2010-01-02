@@ -1,4 +1,5 @@
 require 'Terrain'
+require 'Menu/BaseShop'
 
 module LD16
   class Terrain
@@ -14,6 +15,15 @@ module LD16
       end
       def special
         puts "Player activated Base special"
+      end
+      def special_desc
+        "It does a thing!"
+      end
+      def name
+        "Base Station"
+      end
+      def shop
+        Menu::BaseShop
       end
     end
   end

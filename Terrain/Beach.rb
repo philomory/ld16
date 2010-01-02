@@ -9,6 +9,9 @@ module LD16
       def cost
         25
       end
+      def name
+        "Beach"
+      end
     end
   end
 end

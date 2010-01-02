@@ -70,6 +70,7 @@ module LD16
       @current_screen.button_up(id)
     end
     
+    
     # MainWindow is a singleton. This allows me to call methods on MainWindow
     # that I really want to sent to MainWindow.instance, cutting out a lot of
     # useless verbosity. And it avoids ill-performing method_missing hacks.

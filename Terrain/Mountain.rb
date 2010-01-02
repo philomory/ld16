@@ -9,6 +9,9 @@ module LD16
       def cost
         75
       end
+      def name
+        "Mountain"
+      end
     end
   end
 end

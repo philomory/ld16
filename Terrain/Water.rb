@@ -9,6 +9,9 @@ module LD16
       def cost
         999999
       end
+      def name
+        "Water"
+      end
     end
   end
 end

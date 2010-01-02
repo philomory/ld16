@@ -2,19 +2,22 @@ require 'GridSquare'
 
 module LD16
   class Player
-    attr_reader :x, :y, :fuel, :score
+    attr_accessor :fuel, :score
+    attr_reader :x, :y, :max_fuel, :upgrades, :sight
     def initialize(x,y,game)
       @x,@y,@game = x,y,game
-      @fuel   =   1000
-      @score  =      0
-      @sight  =      4
+      @max_fuel   =      1000
+      @fuel       = @max_fuel
+      @score      =         0
+      @sight      =         4
+      @upgrades   =        []
       self.update_sight
     end
     
     def move(dir)
       destination = GridSquare.new(@x,@y,@game.region.terrain).send(dir)
       cost = destination.contents.cost
-      if @fuel > cost
+      if @fuel >= cost
         @fuel -= cost
         @x,@y = *destination
         self.update_sight

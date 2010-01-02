@@ -9,6 +9,9 @@ module LD16
       def cost
         10
       end
+      def name
+        "Grassland"
+      end
     end
   end
 end
