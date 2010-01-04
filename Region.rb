@@ -6,20 +6,21 @@ require 'Terrain'
 module LD16
   class Region
     attr_accessor :terrain, :seen, :png, :base
-    def initialize(width,height)
-      @width, @height = width, height
+    attr_reader :x_off, :y_off
+    
+    def initialize(width,height,x_offset,y_offset,png)
+      @width, @height, @x_off, @y_off, @png = width, height, x_offset*width, y_offset*height, png
       @terrain = Grid.fill(@width,@height) {0}
       @seen = Grid.fill(@width,@height) {false}
-      @png = Perlin.new(rand(65335),3,0.5)
+      
       self.setup_heightmap(0.15)
       self.setup_terrains
       #@points_of_interest = Grid.new(@width,@height)
     end
     
-    
     def setup_heightmap(scale)
       @terrain.map_coords! do |x,y|
-        tmp_z = (@png.perlin_noise(x*scale,y*scale) * 255).to_i
+        tmp_z = (@png.perlin_noise((x+@x_off)*scale,(y+@y_off)*scale) * 255).to_i
         z = ((tmp_z+255)/2).to_i
         warn z unless (0..255).include?(z)
         z

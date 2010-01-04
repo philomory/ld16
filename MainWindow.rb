@@ -31,11 +31,16 @@ module LD16
       # More Singleton stuff.
       self.class.instance_variable_set(:@__instance__,self)
        
-      super(Sizes::WindowWidth,Sizes::WindowHeight,false)
+      super(Sizes::WindowWidth,Sizes::WindowHeight,false,16.666666666*2)
       self.caption = "LD16 Game"
       self.new_game
       @fps = FPSCounter.new
+      @needs_redraw = true
     end #def initialize
+    
+    def needs_redraw?
+      @needs_redraw
+    end
     
     def update
       @fps.register_tick
@@ -59,10 +64,12 @@ module LD16
       # into the picture.
       @current_screen.draw # rescue nil
       #ImageManager.image('pointer').draw(self.mouse_x-6,self.mouse_y,ZOrder::Pointer)
-      self.caption = "LD16 Game: #{@fps.fps} frames per second." 
+      self.caption = "LD16 Game: #{@fps.fps} frames per second."
+      @needs_redraw = false 
     end
     
     def button_down(id)
+      @needs_redraw = true
       @current_screen.button_down(id)
     end
     

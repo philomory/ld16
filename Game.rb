@@ -2,6 +2,7 @@ require 'Screen'
 require 'Region'
 require 'Player'
 require 'GameMenu'
+require 'Perlin'
 
 module LD16
   class Game
@@ -11,7 +12,8 @@ module LD16
     def initialize(tiles_w,tiles_h,scale)
       init_screen
       @width,@height,@scale = tiles_w,tiles_h,scale
-      @region = Region.new(@width,@height)
+      @png = Perlin.new(rand(65335),3,0.5)
+      @region = Region.new(@width,@height,0,0,@png)
       start_point = @region.terrain.grid_squares.select do |sq| 
         sq.contents.is_a?(Terrain::Grassland)
       end.sort_by {|sq| rand}.first
@@ -19,6 +21,7 @@ module LD16
       @region.create_base(x,y,z)
       @player = Player.new(x,y,self)
       @font = Gosu::Font.new(MainWindow.instance,Gosu::default_font_name,15)
+      
     end
     
     def draw
@@ -48,6 +51,10 @@ module LD16
       when Gosu::KbP then @packed = @region.pack; p @packed
       when Gosu::KbU then @region.unpack(@packed) if @packed
       end
+    end
+    
+    def move_off_edge(edge)
+      
     end
     
     def current_terrain
