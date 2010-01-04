@@ -6,10 +6,11 @@ require 'Terrain'
 module LD16
   class Region
     attr_accessor :terrain, :seen, :png, :base
-    attr_reader :x_off, :y_off
+    attr_reader :x, :y
     
-    def initialize(width,height,x_offset,y_offset,png)
-      @width, @height, @x_off, @y_off, @png = width, height, x_offset*width, y_offset*height, png
+    def initialize(width,height,x,y,png)
+      @width, @height, @x, @y, @png = width, height, x, y, png
+      @x_off, @y_off = x*width, y*height
       @terrain = Grid.fill(@width,@height) {0}
       @seen = Grid.fill(@width,@height) {false}
       
@@ -40,8 +41,9 @@ module LD16
       end
     end
     
-    def create_base(x,y,z)
+    def create_base(x,y)
       @base = [x,y]
+      z = terrain[x,y].z
       @terrain[x,y] = Terrain::Base.new(x,y,z)
     end
     

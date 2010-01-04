@@ -1,8 +1,9 @@
 module LD16
   class GridSquare
   
-    attr_reader :x, :y, :grid
-    def initialize(x,y,grid)
+    attr_reader :x, :y
+    attr_accessor :gird
+    def initialize(x,y,grid=nil)
       @x, @y, @grid = x, y, grid
     end
     
@@ -24,7 +25,7 @@ module LD16
     end
     
     def contents
-      @grid[@x,@y]
+      @grid[@x,@y] if @grid
     end
     
     def to_s

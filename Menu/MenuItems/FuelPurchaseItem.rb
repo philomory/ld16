@@ -6,7 +6,7 @@ module LD16
       class FuelPurchaseItem < PurchaseItem
         def initialize(menu,cost_per)
           @menu = menu
-          @amount = 5
+          @amount = 100
           self.validate_amount
           @title = lambda {"Fuel x#{@amount}"}
           @cost  = lambda {(cost_per * @amount).ceil}
@@ -18,12 +18,12 @@ module LD16
         end
 
         def incr
-          @amount += 5
+          @amount += 100
           self.validate_amount
         end
 
         def decr
-          @amount -= 5
+          @amount -= 100
           self.validate_amount
         end
 

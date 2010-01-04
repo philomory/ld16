@@ -1,29 +1,34 @@
 require 'Screen'
-require 'Region'
+require 'World'
 require 'Player'
 require 'GameMenu'
 require 'Perlin'
 
 module LD16
   class Game
+    
     include Screen
-    attr_accessor :region
-    attr_reader :player
+    
+    attr_reader :player, :region, :world
+    
     def initialize(tiles_w,tiles_h,scale)
       init_screen
       @width,@height,@scale = tiles_w,tiles_h,scale
+      
+      #@png = Perlin.new(rand(65335),1,0)
       @png = Perlin.new(rand(65335),3,0.5)
-      @region = Region.new(@width,@height,0,0,@png)
+      
+      @world = World.new(@width,@height,@png)
+      @region = @world.load_region(0,0)
       start_point = @region.terrain.grid_squares.select do |sq| 
         sq.contents.is_a?(Terrain::Grassland)
       end.sort_by {|sq| rand}.first
-      x,y,z = start_point.x, start_point.y,start_point.contents.z
-      @region.create_base(x,y,z)
+      x,y = *start_point
+      @region.create_base(x,y)
       @player = Player.new(x,y,self)
-      @font = Gosu::Font.new(MainWindow.instance,Gosu::default_font_name,15)
-      
+      @font = Gosu::Font.new(MainWindow.instance,Gosu::default_font_name,15)  
     end
-    
+        
     def draw
       @region.terrain.each_with_coords do |sq,x,y| 
         self.draw_grid_square(x,y,sq.color,0) if @region.seen[x,y]
@@ -48,13 +53,49 @@ module LD16
       when Gosu::KbEscape then MainWindow.close
       when Gosu::KbEnter  then MainWindow.current_screen = GameMenu.new(self)
       when Gosu::KbReturn then MainWindow.current_screen = GameMenu.new(self)
-      when Gosu::KbP then @packed = @region.pack; p @packed
-      when Gosu::KbU then @region.unpack(@packed) if @packed
+      when Gosu::KbZ      then self.region_warp(0,0)
+      when Gosu::KbW      then self.region_warp(gets.to_i,gets.to_i)
       end
     end
     
-    def move_off_edge(edge)
-      
+    def pass_edge(direction)
+      old_x,old_y = @region.x,@region.y
+      case direction
+      when :north
+        new_x,new_y = old_x,old_y-1
+        player_x,player_y = @player.x,@height-1
+      when :south
+        new_x,new_y = old_x,old_y+1
+        player_x,player_y = @player.x,0
+      when :east
+        new_x,new_y = old_x+1,old_y
+        player_x,player_y = 0,@player.y
+      when :west
+        new_x,new_y = old_x-1,old_y
+        player_x,player_y = @width-1,@player.y
+      end
+      @world.save_region(@region,old_x,old_y)
+      @region = @world.load_region(new_x,new_y)
+      @player.x, @player.y = player_x, player_y
+      @player.update_sight
+    end
+    
+    def region_warp(x,y)
+      @world.save_region(@region,@region.x,@region.y)
+      @region = @world.load_region(x,y)
+      @player.update_sight
+    end
+    
+    def local_warp(x,y)
+      @player.x, @player.y = x, y
+      @player.update_sight
+    end
+    
+    def warp(region_x,region_y,local_x,local_y) 
+      @world.save_region(@region,@region.x,@region.y)
+      @region = @world.load_region(region_x,region_y)
+      @player.x, @player.y = local_x, local_y
+      @player.update_sight
     end
     
     def current_terrain

@@ -16,11 +16,14 @@ module LD16
           end
         end
 
+        
         def can_purchase?
-          if @cost.is_a? Proc
-            @cost.call
+          if @can_purchase.is_a? Proc
+            @can_purchase.call
+          elsif !defined?(@can_purchase)
+            true
           else
-            @cost
+            @can_purchase
           end
         end
 

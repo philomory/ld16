@@ -2,8 +2,8 @@ require 'GridSquare'
 
 module LD16
   class Player
-    attr_accessor :fuel, :score
-    attr_reader :x, :y, :max_fuel, :upgrades, :sight
+    attr_accessor :fuel, :score, :x, :y
+    attr_reader :max_fuel, :upgrades, :sight
     def initialize(x,y,game)
       @x,@y,@game = x,y,game
       @max_fuel   =      1000
@@ -16,13 +16,17 @@ module LD16
     
     def move(dir)
       destination = GridSquare.new(@x,@y,@game.region.terrain).send(dir)
-      cost = destination.contents.cost
-      if @fuel >= cost
-        @fuel -= cost
-        @x,@y = *destination
-        self.update_sight
+      if destination.contents == OutOfBounds
+        @game.pass_edge(dir)
       else
-        #flash fuel later
+        cost = destination.contents.cost
+        if @fuel >= cost
+          @fuel -= cost
+          @x,@y = *destination
+          self.update_sight
+        else
+          #flash fuel later
+        end
       end
     end
     
