@@ -1,8 +1,10 @@
 module LD16
   module Sizes
     SquareSize   = 20
-    RegionWidth  = 20
-    RegionHeight = 20
+    RegionWidth  = 21
+    RegionHeight = 21
+    WorldWidth   = 11
+    WorldHeight  = 11
     WindowWidth  = RegionWidth  * SquareSize
     WindowHeight = RegionHeight * SquareSize
   end

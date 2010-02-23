@@ -48,7 +48,7 @@ module LD16
     end
     
     def new_game
-      @current_screen = Game.new(20,20,20)
+      @current_screen = Game.new(Sizes::RegionWidth,Sizes::RegionHeight,Sizes::SquareSize)
     end
     
     def draw
