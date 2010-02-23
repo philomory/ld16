@@ -11,7 +11,7 @@ Score: #{player.score}
 
 Sight: #{player.sight}
 Installed Upgrades: 
-        #{player.upgrades.join("\n        ")}
+        #{player.upgrades.map {|u| u.title}.join("\n        ")}
 END_OF_TEXT
         @lines = self.text_layout(text,@font,@panel_width-20)
       end

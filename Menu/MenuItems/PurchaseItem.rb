@@ -6,6 +6,7 @@ module LD16
       class PurchaseItem < BaseMenuItem
         def initialize(menu,title,cost,can_purchase = true,&on_purchase)
           @menu, @title, @cost, @can_purchase = menu,title, cost,can_purchase
+          @on_purchase = on_purchase
         end
 
         def cost
