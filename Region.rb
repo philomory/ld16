@@ -11,32 +11,32 @@ module LD16
     def initialize(width,height,x,y,png)
       @width, @height, @x, @y, @png = width, height, x, y, png
       @x_off, @y_off = x*width, y*height
-      @terrain = Grid.fill(@width,@height) {0}
-      @seen = Grid.fill(@width,@height) {false}
-      
-      self.setup_heightmap(0.15)
-      self.setup_terrains
-      #@points_of_interest = Grid.new(@width,@height)
+      @scale = 0.15
     end
     
-    def setup_heightmap(scale)
+    def generate_terrain
+      @terrain = Grid.fill(@width,@height) {0}
+      @seen = Grid.fill(@width,@height) {false}
+      self.setup_heightmap
+      self.setup_terrain
+    end
+    
+    def setup_heightmap
       @terrain.map_coords! do |x,y|
-        tmp_z = (@png.perlin_noise((x+@x_off)*scale,(y+@y_off)*scale) * 255).to_i
-        z = ((tmp_z+255)/2).to_i
+        z = height(x,y)
         warn z unless (0..255).include?(z)
         z
       end
     end
     
-    def setup_terrains
+    def height(x,y)
+      tmp_z = (@png.perlin_noise((x+@x_off)*@scale,(y+@y_off)*@scale) * 255).to_i
+      ((tmp_z+255)/2).to_i
+    end
+    
+    def setup_terrain
       @terrain.map_with_coords! do |z,x,y|
-        klass = case z
-        when (  0...100) then Terrain::Water
-        when (100...110) then Terrain::Beach
-        when (110...150) then Terrain::Grassland
-        when (150...170) then Terrain::Hill
-        else                  Terrain::Mountain
-        end
+        klass = Terrain.of_height(z)
         klass.new(x,y,z)
       end
     end
@@ -60,7 +60,12 @@ module LD16
       @seen = Grid.from_array(seen_ary)
     end
     
-    
+    def approximate_height
+      center  = height(10,10)
+      sides   = height( 0,10) + height(10, 0) + height(21,10) + height(10,21)
+      corners = height( 0, 0) + height( 0,21) + height(21, 0) + height(21,21)
+      return center/4 + sides/8 + corners/16
+    end
     
   end
 end

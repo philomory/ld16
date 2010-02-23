@@ -7,7 +7,7 @@ module LD16
         Gosu::Color.new(z,0,0,255)
       end
       def cost
-        999999
+        100
       end
       def name
         "Water"

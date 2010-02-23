@@ -3,6 +3,7 @@ require 'World'
 require 'Player'
 require 'GameMenu'
 require 'Perlin'
+require 'Constants'
 
 module LD16
   class Game
@@ -18,8 +19,9 @@ module LD16
       #@png = Perlin.new(rand(65335),1,0)
       @png = Perlin.new(rand(65335),3,0.5)
       
-      @world = World.new(@width,@height,@png)
+      @world = World.new(Sizes::WorldWidth,Sizes::WorldHeight,@width,@height,@png)
       @region = @world.load_region(0,0)
+      @region.try_averaging
       start_point = @region.terrain.grid_squares.select do |sq| 
         sq.contents.is_a?(Terrain::Grassland)
       end.sort_by {|sq| rand}.first
