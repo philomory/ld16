@@ -21,7 +21,6 @@ module LD16
       
       @world = World.new(Sizes::WorldWidth,Sizes::WorldHeight,@width,@height,@png)
       @region = @world.load_region(0,0)
-      @region.try_averaging
       start_point = @region.terrain.grid_squares.select do |sq| 
         sq.contents.is_a?(Terrain::Grassland)
       end.sort_by {|sq| rand}.first
