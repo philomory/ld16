@@ -18,7 +18,7 @@ module LD16
         super
         @items_array.each_with_index do |item,index|
           selected = (index == @selection_index)
-          afford   = (game.player.score >= item.cost)
+          afford   = (game.player.funds >= item.cost)
           color = case [selected, afford] 
             when [ true, true] then 0xFFFFFFFF 
             when [ true,false] then 0xFFFFAAAA

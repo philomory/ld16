@@ -3,6 +3,7 @@ require 'Panel'
 require 'Menu/GameSubMenu'
 require 'Menu/PlayerSubMenu'
 require 'Menu/TerrainSubMenu'
+require 'Menu/WorldMapSubMenu'
 
 module LD16
   class GameMenu
@@ -19,7 +20,7 @@ module LD16
                       Menu::PlayerSubMenu.new(self),
                       Menu::TerrainSubMenu.new(self),
                       @game.current_terrain.shop.new(self),
-                      Menu::GameSubMenu.new(self,0xEE0000FF),
+                      Menu::WorldMapSubMenu.new(self),
                       Menu::GameSubMenu.new(self,0xEE00FF00),
       ]
     end

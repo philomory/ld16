@@ -56,6 +56,10 @@ module LD16
       draw_rect(x,y,s,s,c,z)
     end
     
+    def draw_grid_square(x,y,color,z,padding=0,xmargin=0,ymargin=0,scale = (@scale || Sizes::SquareSize) )
+      self.draw_square(x*@scale+padding+xmargin,y*@scale+padding+ymargin,@scale-(padding*2),color,z)
+    end
+    
     
     def draw_text(font, text, x, y, z, factor_x=1, factor_y=1, color=0xffffffff, mode=:default)
       @panel_parent.clip_to(@panel_x,@panel_y,@panel_width,@panel_height) do

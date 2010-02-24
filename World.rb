@@ -2,7 +2,7 @@ require 'Region'
 
 module LD16
   class World
-    attr_reader :bases
+    attr_reader :bases, :world_map
     def initialize(world_width,world_height,region_width,region_height,png)
       @world_width, @world_height = world_width, world_height
       @region_width, @region_height, @png = region_width, region_height, png

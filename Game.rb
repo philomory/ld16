@@ -37,10 +37,7 @@ module LD16
       @player.draw
       @font.draw(" Fuel: #{@player.fuel}", 10,10,5)
       @font.draw("Score: #{@player.score}",10,30,5)
-    end
-    
-    def draw_grid_square(x,y,color,z,padding=0)
-      self.draw_square(x*@scale+padding,y*@scale+padding,@scale-(padding*2),color,z)
+      @font.draw("Funds: #{@player.funds}",10,50,5)
     end
         
     def button_down(id)

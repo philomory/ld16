@@ -8,6 +8,7 @@ module LD16
         terrain = region.terrain[player.x,player.y]
         text = <<-END_OF_TEXT
         #{terrain.name} (#{terrain.x},#{terrain.y})
+Elevation: #{terrain.z}
 Value: #{terrain.value}
 Move Cost: #{terrain.cost}
 Special: #{terrain.special_desc}

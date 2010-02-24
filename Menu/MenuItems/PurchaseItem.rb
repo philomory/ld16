@@ -33,8 +33,8 @@ module LD16
         end
 
         def selected
-          if self.can_purchase? && @menu.player.score >= self.cost
-            @menu.player.score -= self.cost
+          if self.can_purchase? && @menu.player.funds >= self.cost
+            @menu.player.funds -= self.cost
             self.purchase
           end
         end

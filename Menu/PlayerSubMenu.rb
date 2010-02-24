@@ -7,6 +7,7 @@ module LD16
         super(game_menu,0xEEFF00FF)
         text = <<-END_OF_TEXT
         Fuel: #{player.fuel}/#{player.max_fuel}
+Funds: #{player.funds}
 Score: #{player.score}
 
 Sight: #{player.sight}
