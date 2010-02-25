@@ -11,7 +11,7 @@ module LD16
     def initialize(width,height,x,y,png)
       @width, @height, @x, @y, @png = width, height, x, y, png
       @x_off, @y_off = x*width, y*height
-      @scale = 0.15
+      @scale = 0.05
     end
     
     def generate_terrain
