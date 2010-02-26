@@ -12,6 +12,9 @@ module LD16
       def name
         "Water"
       end
+      def traverseable?
+        false
+      end
     end
   end
 end

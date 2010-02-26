@@ -7,6 +7,7 @@ module LD16
     def special; end
     def special_desc; "None" end
     def shop; Menu::RemoteShop; end
+    def traverseable?; true; end
   end
 end
 

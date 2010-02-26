@@ -43,7 +43,7 @@ module LD16
     
     def create_base(x,y)
       @base = [x,y]
-      z = terrain[x,y].z
+      z = @terrain[x,y].z
       @terrain[x,y] = Terrain::Base.new(x,y,z)
     end
     
@@ -67,5 +67,10 @@ module LD16
       return center/4 + sides/8 + corners/16
     end
     
+    def starting_point
+      @terrain.grid_squares.select do |sq| 
+        sq.contents.traverseable?
+      end.sort_by {|sq| rand}.first
+    end
   end
 end

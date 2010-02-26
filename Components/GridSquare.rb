@@ -28,7 +28,7 @@ module LD16
       @grid[@x,@y] if @grid
     end
     
-    def to_s
+    def inspect
       "GridSquare[#{x},#{y}]: #{self.contents}"
     end
   

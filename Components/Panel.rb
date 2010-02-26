@@ -16,13 +16,6 @@ module LD16
       @panel_parent, @panel_width, @panel_height, @panel_z = parent, width, height, z
       @panel_x = x || ((@panel_parent.panel_width - width)/2)
       @panel_y = y || ((@panel_parent.panel_height - height)/2)
-      # p "self: #{self}"
-      # p "panel_parent: #{@panel_parent}"
-      # p "panel_width: #{@panel_width}"
-      # p "panel_height: #{@panel_height}"
-      # p "panel_x: #{@panel_x}"
-      # p "panel_y: #{@panel_y}"
-      # puts
     end
     
     def clip_to(x,y,w,h,&blck)

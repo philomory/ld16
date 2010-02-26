@@ -4,6 +4,7 @@ require 'Player'
 require 'GameMenu'
 require 'Perlin'
 require 'Constants'
+require 'EmbarkationScreen'
 
 module LD16
   class Game
@@ -20,16 +21,21 @@ module LD16
       @png = Perlin.new(rand(65335),3,0.5)
       
       @world = World.new(Sizes::WorldWidth,Sizes::WorldHeight,@width,@height,@png)
-      @region = @world.load_region(0,0)
-      start_point = @region.terrain.grid_squares.select do |sq| 
-        sq.contents.is_a?(Terrain::Grassland)
-      end.sort_by {|sq| rand}.first
+      @font = Gosu::Font.new(MainWindow.instance,Gosu::default_font_name,15)
+    end
+    
+    def embarkation_screen
+      EmbarkationScreen.new(self,@world)
+    end
+       
+    def embark(x,y)
+      @region = @world.load_region(x,y)
+      start_point = @region.starting_point
       x,y = *start_point
       @region.create_base(x,y)
       @player = Player.new(x,y,self)
-      @font = Gosu::Font.new(MainWindow.instance,Gosu::default_font_name,15)  
     end
-        
+    
     def draw
       @region.terrain.each_with_coords do |sq,x,y| 
         self.draw_grid_square(x,y,sq.color,0) if @region.seen[x,y]
@@ -51,8 +57,7 @@ module LD16
       when Gosu::KbEscape then MainWindow.close
       when Gosu::KbEnter  then MainWindow.current_screen = GameMenu.new(self)
       when Gosu::KbReturn then MainWindow.current_screen = GameMenu.new(self)
-      when Gosu::KbZ      then self.region_warp(0,0)
-      when Gosu::KbW      then self.region_warp(gets.to_i,gets.to_i)
+      when Gosu::KbE      then MainWindow.current_screen = EmbarkationScreen.new(self,@world)
       end
     end
     

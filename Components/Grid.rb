@@ -6,6 +6,7 @@ module LD16
   def OutOfBounds.cost(); 999999999; end
   def OutOfBounds.color(); 0x00000000; end
   def OutOfBounds.value(); 0; end
+  def OutOfBounds.inspect(); "OutOfBounds"; end
   
   class Grid
     include Enumerable

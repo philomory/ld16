@@ -1,6 +1,7 @@
 module LD16
   class WorldMapDisplay
     include Panel
+    attr_reader :scale, :xmargin, :ymargin
     def initialize(world,*panel_args)
       @world = world
       @map = world.world_map
@@ -16,6 +17,13 @@ module LD16
       @map.each_with_coords do |sq,x,y| 
         self.draw_grid_square(x,y,sq.color,0,0,@xmargin,@ymargin)
       end
+    end
+    
+    # This is just here to set the default margins for the call, so that another
+    # Object asking us to draw something special in a square (such as a cursor)
+    # does not have to know our margins.
+    def draw_grid_square(x,y,color,z,padding=0,xmargin=@xmargin,ymargin=@ymargin)
+      super
     end
   end
 end
