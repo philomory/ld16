@@ -41,8 +41,10 @@ module LD16
     end
     
     def select_location
-      @game.embark(*@cursor_loc)
-      MainWindow.current_screen = @game
+      if @cursor_loc.contents.traverseable?
+        @game.embark(*@cursor_loc)
+        MainWindow.current_screen = @game
+      end
     end
   end
 end

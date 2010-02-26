@@ -68,9 +68,9 @@ module LD16
     end
     
     def starting_point
-      @terrain.grid_squares.select do |sq| 
-        sq.contents.traverseable?
-      end.sort_by {|sq| rand}.first
+      @terrain.grid_squares.sort_by do |sq|
+        (sq.contents.z - 130).abs
+      end.first
     end
   end
 end
