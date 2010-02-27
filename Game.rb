@@ -18,7 +18,7 @@ module LD16
       @width,@height,@scale = tiles_w,tiles_h,scale
       
       #@png = Perlin.new(rand(65335),1,0)
-      @png = Perlin.new(rand(65335),3,0.5)
+      @png = Perlin.new(rand(65335),4,0.7)
       
       @world = World.new(Sizes::WorldWidth,Sizes::WorldHeight,@width,@height,@png)
       @font = Gosu::Font.new(MainWindow.instance,Gosu::default_font_name,15)
