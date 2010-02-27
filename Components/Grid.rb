@@ -1,7 +1,17 @@
+# A nicely over-engineered grid class. Some YAGNI for this game, but I've been
+# fine-tuning this implimentation over the course of three-grid based games. 
+#
+# Due to be extracted into a library.
+
 require 'enumerator'
 require 'GridSquare'
 
 module LD16
+  
+  # Grids are of fixed size. OutOfBounds is returned if an attempt is made to
+  # access a square outside the bounds of the grid. Why not throw an exception?
+  # Going out of bounds isn't always exceptional! For instance, OutOfBounds is
+  # returned when leaving one Region and entering another.
   OutOfBounds = Object.new
   def OutOfBounds.cost(); 999999999; end
   def OutOfBounds.color(); 0x00000000; end
@@ -10,6 +20,14 @@ module LD16
   
   class Grid
     include Enumerable
+    
+    # Create a Grid from a passed array of arrays. Note that we're _not_ 
+    # verifying that the array of arrays is properly uniform in dimensions.
+    # If it's not, though, it'll be just like the rest of the array is filled
+    # with nils.
+    #
+    # TODO: At least verify that element of the top array _is_ in fact also
+    # an array.
     def self.from_array(array)
       width = array.length
       height = array[0].length
@@ -18,6 +36,7 @@ module LD16
       return grid
     end
     
+    # Create a grid and fill it by calling the block for each square.
     def self.fill(width,height,with_coordinates=false,&fill)
       grid = self.new(width,height)
       if with_coordinates

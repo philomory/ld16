@@ -36,7 +36,7 @@ module LD16
       self.new_game
       @fps = FPSCounter.new
       @needs_redraw = true
-    end #def initialize
+    end
     
     def needs_redraw?
       @needs_redraw
