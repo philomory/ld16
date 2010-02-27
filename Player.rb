@@ -5,15 +5,26 @@ module LD16
   class Player
     include Upgradable
     
-    attr_accessor :fuel, :funds, :score, :x, :y, :max_fuel, :sight
+    attr_accessor :fuel, :funds, :score, :x, :y, :sight
     def initialize(x,y,game)
       @x,@y,@game = x,y,game
-      @max_fuel   =      5000
-      @fuel       = @max_fuel
-      @score      =         0
-      @funds      =         0
-      @sight      =         4
+      @fuel  = max_fuel
+      @score =       0
+      @funds =       0
+      @sight =       4
       self.update_sight
+    end
+    
+    def fuel_tanks
+      1
+    end
+    
+    def fuel_per_tank
+      5000
+    end
+    
+    def max_fuel
+      fuel_tanks * fuel_per_tank
     end
     
     def move(dir)

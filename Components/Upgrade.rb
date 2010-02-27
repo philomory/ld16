@@ -27,7 +27,7 @@ module LD16
     end
     
     def self.require_all_upgrades
-      Dir[File.dirname(__FILE__) + '/Upgrade/*.rb'].each {|file| require file }
+      Dir['Upgrade/*.rb'].each {|file| require file }
     end
     
   end
