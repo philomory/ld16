@@ -5,7 +5,7 @@ module LD16
       register(:sight,6)
     
       def sight
-        [super,5].max
+        [super,6].max
       end
       
       def self.title
