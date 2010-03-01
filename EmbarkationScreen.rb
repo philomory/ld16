@@ -20,7 +20,7 @@ module LD16
     
     def draw_cursor
       x,y = *@cursor_loc
-      color = @cursor_loc.contents.traverseable? ? 0xFFFF00FF : 0xFFFF0000
+      color = @cursor_loc.contents.traversable? ? 0xFFFF00FF : 0xFFFF0000
       @map_display.draw_grid_square(x,y,color,1,@map_display.scale/4)
     end
     
@@ -41,7 +41,7 @@ module LD16
     end
     
     def select_location
-      if @cursor_loc.contents.traverseable?
+      if @cursor_loc.contents.traversable?
         @game.embark(*@cursor_loc)
         MainWindow.current_screen = @game
       end

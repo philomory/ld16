@@ -6,11 +6,34 @@ module LD16
     def initialize(world_width,world_height,region_width,region_height,png)
       @world_width, @world_height = world_width, world_height
       @region_width, @region_height, @png = region_width, region_height, png
+      seed = ((@png.perlin_noise(@png.seed,@png.seed)) * 65535).to_i
+      @prng = PRNG.new(seed)
       @regions_mapped_terrain = {}
       @bases = {}
+      @dungeon_locations = {}
+      allocate_dungeons
       @world_map = self.generate_world_map
     end
     
+    def allocate_dungeons
+      regions = Grid.new(@world_width,@world_height).grid_squares
+      squares = Grid.new(@region_width,@region_height).grid_squares
+      num_dungeons.times do
+        region = regions[@prng.next(regions.size)]
+        regions.delete(region)
+        ds = squares[@prng.next(squares.size)]
+        @dungeon_locations[[region.x,region.y]] = [ds.x,ds.y,@prng.next(65536)] 
+      end
+    end
+    
+    def num_dungeons
+      regions = @world_width * @world_height
+      min_dungeons = Math.sqrt(regions).to_i
+      max_dungeons = [@world_width + @world_height,regions].min
+      range = max_dungeons - min_dungeons
+      @prng.next(range) + min_dungeons
+    end
+        
     def load_region(x,y)
       region = Region.new(@region_width, @region_height,x,y,@png)
       region.generate_terrain
@@ -19,6 +42,9 @@ module LD16
       end
       if (base_loc = @bases[[x,y]])
         region.create_base(*base_loc)
+      end
+      if (dungeon_loc = @dungeon_locations[[x,y]])
+        region.create_dungeon(*dungeon_loc)
       end
       return region
     end

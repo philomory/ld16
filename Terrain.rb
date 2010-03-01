@@ -4,16 +4,14 @@ module LD16
   Terrain = Struct.new(:x,:y,:z) do
     def value; 2; end
     def cost; 0; end
-    def special; end
+    def special(game); end
     def special_desc; "None" end
     def shop; Menu::RemoteShop; end
-    def traverseable?; true; end
+    def traversable?; true; end
   end
 end
 
-%w{Water Beach Grassland Hill Mountain Base}.each do |type|
-  require File.join('Terrain',type)
-end
+Dir['Terrain/*.rb'].each {|file| require file }
 
 class LD16::Terrain
   def self.of_height(z)

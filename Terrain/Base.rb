@@ -13,7 +13,7 @@ module LD16
       def value
         0
       end
-      def special
+      def special(game)
         puts "Player activated Base special"
       end
       def special_desc

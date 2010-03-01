@@ -12,7 +12,7 @@ module LD16
       def name
         "Mountain"
       end
-      def traverseable?
+      def traversable?
         false
       end
     end

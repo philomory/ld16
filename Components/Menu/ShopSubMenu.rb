@@ -51,7 +51,6 @@ module LD16
           self.draw_text(@font,item.title,10,5+20*index,5,1,1,color)
           self.draw_text_rel(@font,item.cost,@panel_width-10,5+20*index,5,1,0,1,1,color)
         end
-        self.draw_text(@font,@view_index.to_s,0,0,10)
       end
       
     end

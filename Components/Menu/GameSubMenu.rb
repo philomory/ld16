@@ -23,8 +23,8 @@ module LD16
         self.game.player
       end
 
-      def region
-        self.game.region
+      def area
+        self.game.area
       end
 
       def draw

@@ -5,13 +5,14 @@ require 'GameMenu'
 require 'Perlin'
 require 'Constants'
 require 'EmbarkationScreen'
+require 'Dungeon'
 
 module LD16
   class Game
     
     include Screen
     
-    attr_reader :player, :region, :world
+    attr_reader :player, :region, :world, :area
     
     def initialize(tiles_w,tiles_h,scale)
       init_screen
@@ -22,6 +23,7 @@ module LD16
       
       @world = World.new(Sizes::WorldWidth,Sizes::WorldHeight,@width,@height,@png)
       @font = Gosu::Font.new(MainWindow.instance,Gosu::default_font_name,15)
+      @area = nil
     end
     
     def embarkation_screen
@@ -30,6 +32,7 @@ module LD16
        
     def embark(x,y)
       @region = @world.load_region(x,y)
+      @area = @region
       start_point = @region.starting_point
       x,y = *start_point
       @region.create_base(x,y)
@@ -37,9 +40,10 @@ module LD16
     end
     
     def draw
-      @region.terrain.each_with_coords do |sq,x,y| 
-        self.draw_grid_square(x,y,sq.color,0) if @region.seen[x,y]
+      @area.terrain.each_with_coords do |sq,x,y| 
+        self.draw_grid_square(x,y,sq.color,0) if @area.visible?(x,y)
       end
+      
       @player.draw
       @font.draw(" Fuel: #{@player.fuel}", 10,10,5)
       @font.draw("Score: #{@player.score}",10,30,5)
@@ -57,12 +61,34 @@ module LD16
       when Gosu::KbEscape then MainWindow.close
       when Gosu::KbEnter  then MainWindow.current_screen = GameMenu.new(self)
       when Gosu::KbReturn then MainWindow.current_screen = GameMenu.new(self)
-      when Gosu::KbE      then MainWindow.current_screen = EmbarkationScreen.new(self,@world)
+      when Gosu::KbD      then debug_create_dungeon
       end
     end
     
+    def debug_create_dungeon
+      x,y = @player.x,@player.y
+      z = @region.terrain[x,y].z
+      @region.terrain[x,y] = Terrain::Entrance.new(x,y,z)
+    end
+    
+    def enter_dungeon(location)
+      @world.save_region(@area,@area.x,@area.y)
+      dungeon = Dungeon.new(location,@area)
+      @area = dungeon
+      @player.x, @player.y = *(dungeon.exit)
+      @player.update_sight
+    end
+    
+    def exit_dungeon
+      dungeon = @area
+      @area = World.load_region(*dungeon.region)
+      @player.x, @player.y = *(dungeon.location)
+      @player.update_sight
+    end
+    
     def pass_edge(direction)
-      old_x,old_y = @region.x,@region.y
+      return unless @area.is_a?(Region)
+      old_x,old_y = @area.x,@area.y
       case direction
       when :north
         new_x,new_y = old_x,old_y-1
@@ -77,15 +103,15 @@ module LD16
         new_x,new_y = old_x-1,old_y
         player_x,player_y = @width-1,@player.y
       end
-      @world.save_region(@region,old_x,old_y)
-      @region = @world.load_region(new_x,new_y)
+      @world.save_region(@area,old_x,old_y)
+      @area = @world.load_region(new_x,new_y)
       @player.x, @player.y = player_x, player_y
       @player.update_sight
     end
     
     def region_warp(x,y)
-      @world.save_region(@region,@region.x,@region.y)
-      @region = @world.load_region(x,y)
+      @world.save_region(@area,@area.x,@area.y)
+      @area = @world.load_region(x,y)
       @player.update_sight
     end
     
@@ -95,14 +121,14 @@ module LD16
     end
     
     def warp(region_x,region_y,local_x,local_y) 
-      @world.save_region(@region,@region.x,@region.y)
-      @region = @world.load_region(region_x,region_y)
+      @world.save_region(@area,@area.x,@area.y)
+      @area = @world.load_region(region_x,region_y)
       @player.x, @player.y = local_x, local_y
       @player.update_sight
     end
     
     def current_terrain
-      @region.terrain[@player.x,@player.y]
+      @area.terrain[@player.x,@player.y]
     end
     
   end

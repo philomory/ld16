@@ -47,6 +47,12 @@ module LD16
       @terrain[x,y] = Terrain::Base.new(x,y,z)
     end
     
+    def create_dungeon(x,y,seed)
+      @dungeon = [x,y]
+      z = @terrain[x,y].z
+      @terrain[x,y] = Terrain::Entrance.new(seed,x,y,z)
+    end
+    
     def pack
       bitstring = @seen.flatten.inject("") do |str,sq|
         str << (sq ? "1" : "0")
@@ -71,6 +77,17 @@ module LD16
       @terrain.grid_squares.sort_by do |sq|
         (sq.contents.z - 130).abs
       end.first
+    end
+    
+    def visible?(x,y)
+      @seen[x,y]
+    end
+    
+    def player_sees(x,y)
+      @seen[x,y] = true
+    end
+    
+    def player_moved
     end
   end
 end

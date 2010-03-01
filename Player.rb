@@ -28,7 +28,7 @@ module LD16
     end
     
     def move(dir)
-      destination = GridSquare.new(@x,@y,@game.region.terrain).send(dir)
+      destination = GridSquare.new(@x,@y,@game.area.terrain).send(dir)
       if destination.contents == OutOfBounds
         @game.pass_edge(dir)
       else
@@ -46,10 +46,11 @@ module LD16
     end
     
     def update_sight
-      @game.region.seen.around(@x,@y,self.sight).each do |sq|
-        unless @game.region.seen[*sq]
-          self.receive_points @game.region.terrain[*sq].value
-          @game.region.seen[*sq] = true
+      @game.area.player_moved 
+      @game.area.terrain.around(@x,@y,self.sight).each do |sq|
+        unless @game.area.visible?(*sq)
+          self.receive_points @game.area.terrain[*sq].value
+          @game.area.player_sees(*sq)
         end
       end
     end
