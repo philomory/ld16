@@ -1,11 +1,13 @@
 require 'Grid'
 require 'PRNG'
 require 'helper'
+require 'PermissiveFieldOfView'
 
 module LD16
   # Dungeon generation following algorithm here:
   # http://roguebasin.roguelikedevelopment.org/index.php?title=Grid_Based_Dungeon_Generator
   class Dungeon
+    include PermissiveFieldOfView
     attr_reader :terrain, :location, :region, :exit
     def initialize(location,region)
       seed, @location, @region = location.seed, location, region
@@ -103,11 +105,16 @@ module LD16
       return square
     end
     
-    def player_moved
+    def update_view(player)
       @seen.map! {false}
+      do_fov(player.x,player.y,player.sight)
     end
     
-    def player_sees(x,y)
+    def blocked?(x,y)
+      !@terrain[x,y].traversable?
+    end
+    
+    def light(x,y)
       @seen[x,y] = true
     end
     

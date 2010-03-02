@@ -46,13 +46,7 @@ module LD16
     end
     
     def update_sight
-      @game.area.player_moved 
-      @game.area.terrain.around(@x,@y,self.sight).each do |sq|
-        unless @game.area.visible?(*sq)
-          self.receive_points @game.area.terrain[*sq].value
-          @game.area.player_sees(*sq)
-        end
-      end
+      @game.area.update_view(self)
     end
     
     def wait

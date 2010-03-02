@@ -79,11 +79,21 @@ module LD16
       end.first
     end
     
+    def update_view(player)
+      @terrain.around(player.x,player.y,player.sight).each do |sq|
+        unless visible?(*sq)
+          player.receive_points @terrain[*sq].value
+          light(*sq)
+        end
+      end
+    
+    end
+    
     def visible?(x,y)
       @seen[x,y]
     end
     
-    def player_sees(x,y)
+    def light(x,y)
       @seen[x,y] = true
     end
     
