@@ -68,7 +68,7 @@ module LD16
     def debug_create_dungeon
       x,y = @player.x,@player.y
       z = @region.terrain[x,y].z
-      @region.terrain[x,y] = Terrain::Entrance.new(x,y,z)
+      @region.terrain[x,y] = Terrain::Entrance.new(rand(65535),x,y,z)
     end
     
     def enter_dungeon(location)
@@ -81,8 +81,8 @@ module LD16
     
     def exit_dungeon
       dungeon = @area
-      @area = World.load_region(*dungeon.region)
-      @player.x, @player.y = *(dungeon.location)
+      @area = @world.load_region(dungeon.region.x,dungeon.region.y)
+      @player.x, @player.y = dungeon.location.x,dungeon.location.y
       @player.update_sight
     end
     

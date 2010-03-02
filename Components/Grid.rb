@@ -17,6 +17,7 @@ module LD16
   def OutOfBounds.color(); 0x00000000; end
   def OutOfBounds.value(); 0; end
   def OutOfBounds.inspect(); "OutOfBounds"; end
+  def OutOfBounds.traversable?(); false; end
   
   class Grid
     include Enumerable

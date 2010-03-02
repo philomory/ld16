@@ -8,6 +8,7 @@ module PermissiveFieldOfView
     # radius: how far field of view extends
     def do_fov(start_x, start_y, radius)
         @start_x, @start_y = start_x, start_y
+        @radius = radius
         @radius_sq = radius * radius
         
         # We always see the center
@@ -106,14 +107,25 @@ module PermissiveFieldOfView
         # Current co-ord must be between the steep and shallow lines of the current view
         # The real quadrant co-ordinates:
         real_x, real_y = x * dx, y * dy
+        
+        # Don't go beyond diamond radius specified
+        if (real_x.abs + real_y.abs) > @radius
+            active_views.delete_at(view_index)
+            return
+        end
+        
+        # Don't go beyond circular radius specified
+        #if (real_x * real_x + real_y * real_y) > @radius_sq + @radius
+        #   active_views.delete_at(view_index)
+        #    return
+        #end
+        
         coord = [@start_x + real_x, @start_y + real_y]
         light *coord
         
-        # Don't go beyond circular radius specified
-        #if (real_x * real_x + real_y * real_y) > @radius_sq
-        #    active_views.delete_at(view_index)
-        #    return
-        #end
+
+        
+
         
         # If this co-ord does not block sight, it has no effect on the view
         return unless blocked?(*coord)

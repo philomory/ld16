@@ -19,6 +19,7 @@ module LD16
       end
       def special(game)
         game.enter_dungeon(self)
+        MainWindow.current_screen = game
       end
       def special_desc
         "Enter the caverns."

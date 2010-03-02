@@ -2,11 +2,13 @@ require 'Grid'
 require 'PRNG'
 require 'helper'
 require 'PermissiveFieldOfView'
+require 'ShadowcastingFieldOfView'
 
 module LD16
   # Dungeon generation following algorithm here:
   # http://roguebasin.roguelikedevelopment.org/index.php?title=Grid_Based_Dungeon_Generator
   class Dungeon
+    #include ShadowcastingFieldOfView
     include PermissiveFieldOfView
     attr_reader :terrain, :location, :region, :exit
     def initialize(location,region)

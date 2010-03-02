@@ -17,8 +17,8 @@ module LD16
       @selection_index = 0
       @font = Gosu::Font.new(MainWindow.instance,Gosu::default_font_name,20)
       @items_array = [
-                      Menu::PlayerSubMenu.new(self),
                       Menu::TerrainSubMenu.new(self),
+                      Menu::PlayerSubMenu.new(self),
                       @game.current_terrain.shop.new(self),
                       Menu::WorldMapSubMenu.new(self),
                       Menu::GameSubMenu.new(self,0xEE00FF00),
