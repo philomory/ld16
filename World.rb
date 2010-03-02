@@ -35,6 +35,7 @@ module LD16
     end
         
     def load_region(x,y)
+      return false unless x.between?(0,@world_width) && y.between?(0,@world_height)
       region = Region.new(@region_width, @region_height,x,y,@png)
       region.generate_terrain
       if (pack_str = @regions_mapped_terrain[[x,y]])

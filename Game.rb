@@ -104,15 +104,19 @@ module LD16
         player_x,player_y = @width-1,@player.y
       end
       @world.save_region(@area,old_x,old_y)
-      @area = @world.load_region(new_x,new_y)
-      @player.x, @player.y = player_x, player_y
-      @player.update_sight
+      if (area = @world.load_region(new_x,new_y))
+        @area = area
+        @player.x, @player.y = player_x, player_y
+        @player.update_sight
+      end
     end
     
     def region_warp(x,y)
       @world.save_region(@area,@area.x,@area.y)
-      @area = @world.load_region(x,y)
-      @player.update_sight
+      if (area = @world.load_region(new_x,new_y))
+        @area = area
+        @player.update_sight
+      end
     end
     
     def local_warp(x,y)
@@ -122,9 +126,11 @@ module LD16
     
     def warp(region_x,region_y,local_x,local_y) 
       @world.save_region(@area,@area.x,@area.y)
-      @area = @world.load_region(region_x,region_y)
-      @player.x, @player.y = local_x, local_y
-      @player.update_sight
+      if (area = @world.load_region(new_x,new_y))
+        @area = area
+        @player.x, @player.y = local_x, local_y
+        @player.update_sight
+      end
     end
     
     def current_terrain
