@@ -12,6 +12,10 @@ module LD16
         "All Terrain Treads"
       end
       
+      def self.description
+        "Advanced treads that allow you to traverse mountainous terrain."
+      end
+      
       def self.price
         1000
       end

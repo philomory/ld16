@@ -3,7 +3,8 @@ module LD16
     module MenuItems; end
     include MenuItems
     attr_accessor :selection_index, :items_array, :actions
-    def init_menu
+    def init_menu(loop_items = true)
+      @loop_items = loop_items
       @selection_index = 0
       @items_array = []
       @actions = {
@@ -41,11 +42,20 @@ module LD16
     end
     
     def next
-      @selection_index = (@selection_index + 1) % @items_array.length
+      @selection_index = if @loop_items
+        (@selection_index + 1) % @items_array.length
+      else
+        [@selection_index + 1, @items_array.length - 1].min
+      end
     end
     
     def prev
-      @selection_index = (@selection_index - 1) % @items_array.length
+      @selection_index = 
+      if @loop_items
+        (@selection_index - 1) % @items_array.length
+      else
+        [@selection_index - 1,0].max
+      end
     end
     
     def add(item)

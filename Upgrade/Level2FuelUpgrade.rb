@@ -12,6 +12,10 @@ module LD16
         "Double Fuel Tank"
       end
       
+      def self.description
+        "A larger tank that holds twice as much fuel."
+      end
+      
       def self.price
         3000
       end

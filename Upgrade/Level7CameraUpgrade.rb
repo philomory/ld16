@@ -12,6 +12,10 @@ module LD16
         "Very-long-range Camera"
       end
       
+      def self.description
+        "An excellent camera which allows you to see 7 tiles away."
+      end
+      
       def self.price
         7000
       end

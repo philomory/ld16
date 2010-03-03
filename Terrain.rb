@@ -2,7 +2,7 @@ require 'Menu/RemoteShop'
 
 module LD16
   Terrain = Struct.new(:x,:y,:z) do
-    def value; 2; end
+    def value; 5; end
     def cost; 0; end
     def special(game); end
     def special_desc; "None" end

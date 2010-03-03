@@ -16,7 +16,14 @@ module LD16
             @cost
           end
         end
-
+        
+        def description
+          if @description.is_a? Proc
+            @description.call
+          else
+            @description
+          end
+        end
         
         def can_purchase?
           if @can_purchase.is_a? Proc

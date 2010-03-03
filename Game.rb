@@ -137,5 +137,14 @@ module LD16
       @area.terrain[@player.x,@player.y]
     end
     
+    def region
+      case @area
+      when Region
+        @area
+      when Dungeon
+        @area.region
+      end
+    end
+    
   end
 end

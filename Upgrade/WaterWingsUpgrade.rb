@@ -12,6 +12,10 @@ module LD16
         "Water Wings"
       end
       
+      def self.description
+        "A floatation device. It allows you to travel across water."
+      end
+      
       def self.price
         5000
       end

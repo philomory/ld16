@@ -4,6 +4,7 @@ require 'Menu/GameSubMenu'
 require 'Menu/PlayerSubMenu'
 require 'Menu/TerrainSubMenu'
 require 'Menu/WorldMapSubMenu'
+require 'ruby_debug'
 
 module LD16
   class GameMenu

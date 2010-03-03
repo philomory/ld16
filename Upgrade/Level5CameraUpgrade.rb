@@ -12,6 +12,10 @@ module LD16
         "Mid-range Camera"
       end
       
+      def self.description
+        "A camera with a longer range. Lets you see 5 tiles away."
+      end
+      
       def self.price
         500
       end

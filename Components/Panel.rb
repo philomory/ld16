@@ -56,13 +56,13 @@ module LD16
     
     def draw_text(font, text, x, y, z, factor_x=1, factor_y=1, color=0xffffffff, mode=:default)
       @panel_parent.clip_to(@panel_x,@panel_y,@panel_width,@panel_height) do
-        @panel_parent.draw_text(text, font, px(x), py(y), pz(z), factor_x, factor_y, color, mode)
+        @panel_parent.draw_text(font, text, px(x), py(y), pz(z), factor_x, factor_y, color, mode)
       end
     end
     
     def draw_text_rel(font, text, x, y, z, rel_x, rel_y, factor_x=1, factor_y=1, color=0xffffffff, mode=:default)
       @panel_parent.clip_to(@panel_x,@panel_y,@panel_width,@panel_height) do
-        @panel_parent.draw_text_rel(text, font, px(x), py(y), pz(z), rel_x, rel_y, factor_x, factor_y, color, mode)
+        @panel_parent.draw_text_rel(font, text, px(x), py(y), pz(z), rel_x, rel_y, factor_x, factor_y, color, mode)
       end
     end
     

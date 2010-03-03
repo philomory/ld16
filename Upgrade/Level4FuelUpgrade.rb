@@ -1,6 +1,6 @@
 module LD16
   module Upgrade
-    module Level2FuelUpgrade
+    module Level4FuelUpgrade
       extend Upgrade
       register(:fuel_tanks,4)
     
@@ -10,6 +10,10 @@ module LD16
       
       def self.title
         "Quad Fuel Tank"
+      end
+      
+      def self.description
+        "A huge tank that holds four times as much fuel."
       end
       
       def self.price

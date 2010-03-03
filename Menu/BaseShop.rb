@@ -8,7 +8,9 @@ module LD16
   module Menu
     class BaseShop < ShopSubMenu
       
-      #TODO: Make upgrades purchased remove themselves from the list
+      #TODO: Consumable items, such as the Projectile Short Range Camera (reveals a square)
+      #TODO: Add dropshipping to transport from base to any region, for a moderate fee
+      #TODO: Add dropshipping w/ new base to essentially re-embark somwhere else.
       
       def initialize(menu)
         super(menu)

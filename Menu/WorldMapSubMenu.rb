@@ -13,13 +13,7 @@ module LD16
       def draw
         super
         @world_map_display.draw
-        area = game.area
-        case area
-        when Region
-          x,y = area.x, area.y
-        when Dungeon
-          x,y = area.location.x, area.location.y
-        end
+        x,y = game.region.x, game.region.y
         @world_map_display.draw_grid_square(x,y,0xFFFF00FF,1,3)
       end
       

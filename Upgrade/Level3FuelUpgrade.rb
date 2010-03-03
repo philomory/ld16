@@ -12,6 +12,10 @@ module LD16
         "Triple Fuel Tank"
       end
       
+      def self.description
+        "An extra-large tank that holds triple the fuel."
+      end
+      
       def self.price
         6000
       end
